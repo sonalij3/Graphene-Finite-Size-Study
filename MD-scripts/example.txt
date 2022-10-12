@@ -1,0 +1,1 @@
+This is a folder for our MD scripts. These will mostly be LAMMPS scripts, but they should example like scripts to help guide others into running our LAMMPS simulations.
