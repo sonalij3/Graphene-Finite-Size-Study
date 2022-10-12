@@ -1,4 +1,4 @@
 This is where we can store all our data from our LAMMPS runs. 
 So all the output files from the LAMMPS files. 
 
-We will need to break this into more folders to organize our data for different size graphene crystals.
+We will need to break this into more folders to organize our data for different size graphene flakes.
