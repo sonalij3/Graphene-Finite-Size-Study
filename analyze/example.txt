@@ -1,0 +1,3 @@
+Where we will keep all our analysis scripts.
+
+This might contain both the analysis scripts and the analysis data.
