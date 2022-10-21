@@ -1,0 +1,33 @@
+# Initialization
+units real
+boundary p p p
+atom_style charge
+
+#---------Neighbor----------------------
+neighbor    0.4 bin
+neigh_modify    every 10 one 10000
+
+
+
+log graphene_single_layer_ReaxFF_40_C_log.txt
+
+# System definition
+read_data graphene_single_layer_test_time_9-9_real_charge.data
+
+pair_style reax/c NULL
+pair_coeff * * ffield.reax.cho C 
+fix qeq_reax all qeq/reax 1 0.0 10.0 1.0e-6 reax/c
+
+
+# Minimization
+timestep 1
+min_style cg
+thermo 100
+thermo_style custom step temp press vol lx density pe etotal
+dump 2 all custom 1000 graphene_single_layer_ReaxFF_40_C.lammpstrj id type x y z
+minimize 1.0e-6 1.0e-6 100 1000
+
+fix 1 all nvt temp 50.0 50.0 $(100.0*dt) 
+run 50000
+
+write_data graphene_single_layer_ReaxFF_40_C.data
