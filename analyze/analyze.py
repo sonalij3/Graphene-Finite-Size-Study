@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import os
 
 def extract_properties_from_log(log_file_path):
     data = []
@@ -57,54 +58,29 @@ def get_data(file, warmup=1501):
     
     df = pd.DataFrame([tmp])
 
-    df.to_csv(f"csv/T_{np.round(T, decimals=0)}.csv")
-
     return df
 
 if __name__ == "__main__":
 
-    file1  = "graphene_single_layer_LJ_795C_after_temp_10K_log.txt"
-    file2  = "graphene_single_layer_LJ_795C_after_temp_50K_log.txt"
-    file3  = "graphene_single_layer_LJ_795C_after_temp_60K_log.txt"
-    file4  = "graphene_single_layer_LJ_795C_after_temp_70K_log.txt"
-    file5  = "graphene_single_layer_LJ_795C_after_temp_100K_log.txt"
-    file6  = "graphene_single_layer_LJ_795C_after_temp_200K_log.txt"
-    file7  = "graphene_single_layer_LJ_795C_after_temp_300K_log.txt"
-    file8  = "graphene_single_layer_LJ_795C_after_temp_400K_log.txt"
-    file9  = "graphene_single_layer_LJ_795C_after_temp_500K_log.txt"
-    file10 = "graphene_single_layer_LJ_795C_after_temp_600K_log.txt"
-    file11 = "graphene_single_layer_LJ_795C_after_temp_700K_log.txt"
-    file12 = "graphene_single_layer_LJ_795C_after_temp_800K_log.txt"
-    file13 = "graphene_single_layer_LJ_795C_after_temp_900K_log.txt"
-    file14 = "graphene_single_layer_LJ_795C_after_temp_1000K_log.txt"
-    file15 = "graphene_single_layer_LJ_795C_after_temp_1100K_log.txt"
-    file16 = "graphene_single_layer_LJ_795C_after_temp_1200K_log.txt"
-    file17 = "graphene_single_layer_LJ_795C_after_temp_1300K_log.txt"
-    file18 = "graphene_single_layer_LJ_795C_after_temp_1400K_log.txt"
 
-    file_names = [file1,
-                  file2,
-                  file3,
-                  file4,
-                  file5,
-                  file6,
-                  file7,
-                  file8,
-                  file9,
-                  file10,
-                  file11,
-                  file12,
-                  file13,
-                  file14,
-                  file15,
-                  file16,
-                  file17,
-                  file18]
+    LJ_dir = "data/LJ/"
+    ReaxFF_dir = "data/ReaxFF/"
 
+    LJ_files = os.listdir(LJ_dir)
+    ReaxFF_files = os.listdir(ReaxFF_dir)
 
-    df = get_data(file1)
+    # Data for LJ simulations
+    df = pd.DataFrame()
 
-    for i in range(1,18):
-        df = pd.concat([df, get_data(file_names[i])])
+    for file in LJ_files:
+        df = pd.concat([df, get_data(LJ_dir+file)])
 
-    df.to_csv(f"csv/alldata.csv")
+    df.to_csv(f"csv/LJdata.csv")
+
+    # Data for ReaxFF Simulations
+    df = pd.DataFrame()
+
+    for file in ReaxFF_files:
+        df = pd.concat([df, get_data(ReaxFF_dir+file)])
+
+    df.to_csv(f"csv/ReaxFFdata.csv")
