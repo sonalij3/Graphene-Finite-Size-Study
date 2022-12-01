@@ -46,6 +46,7 @@ plt.plot(x_holder*box_x[0],np.linspace(box_y[0],box_y[1],len(df['x'])),color='k'
 plt.plot(x_holder*box_x[1],np.linspace(box_y[0],box_y[1],len(df['x'])),color='k')
 plt.plot(np.linspace(box_x[0],box_x[1],len(df['y'])),y_holder*box_y[0],color='k')
 plt.plot(np.linspace(box_x[0],box_x[1],len(df['y'])),y_holder*box_y[1],color='k')
-
+plt.ylabel('y (Angstrom meters)')
+plt.xlabel('x (Angstrom meters)')
 
 # %%
