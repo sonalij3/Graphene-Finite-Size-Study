@@ -1,0 +1,37 @@
+# Initialization
+units real
+boundary p p p
+atom_style charge 
+
+#bond_style harmonic
+#angle_style harmonic
+#dihedral_style opls 
+#improper_style harmonic
+#---------Neighbor----------------------
+neighbor    0.4 bin
+neigh_modify    every 10 one 10000
+
+#special_bonds lj 0.0 0.0 0.5
+
+log graphene_single_layer_LJ_795C_after_temp_1400K_log.txt ### MODIFY FILE NAME ###
+# System definition
+read_data graphene_single_layer_x-45_y_45_795_C.data  ### MODIFY FILE NAME ###
+pair_style lj/cut 6
+pair_coeff      1 1 0.066047 3.4
+
+# Virtual force wall to keep the cylinder shape
+#region myCylinder cylinder z 0. 0. 20.3 -22.079997 505.920003 units box
+#fix wall all wall/region myCylinder lj93 1.0 1.0 2.5
+ 
+# Minimization
+timestep 0.25
+thermo 100
+thermo_style custom step temp press vol lx density pe etotal
+dump 2 all custom 1000 graphene_single_layer_LJ_795C_after_temp_1400K.lammpstrj id type x y z ### MODIFY FILE NAME ###
+min_style cg
+minimize 1.0e-6 1.0e-6 100 1000
+#timestep 0.25
+fix 1 all nvt temp 1400.0 1400.0 $(100.0*dt) ### MODIFY INITIAL TEMP, FINAL TEMP ###
+run 400000
+
+write_data graphene_single_layer_LJ_795C_after_temp_1400K.data ### MODIFY FILE NAME ###
