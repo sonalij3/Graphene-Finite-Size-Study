@@ -1,7 +1,7 @@
 LAMMPS data file via write_data, version 14 Dec 2021, timestep = 0
 
 795 atoms
-2 atom types
+1 atom types
 
 -1.4464652271649892 47.2851520035199 xlo xhi
 -1.4423034203099756 47.149101951258686 ylo yhi
@@ -10,7 +10,6 @@ LAMMPS data file via write_data, version 14 Dec 2021, timestep = 0
 Masses
 
 1 12.0107
-2 1.00794
 
 Atoms # charge
 
