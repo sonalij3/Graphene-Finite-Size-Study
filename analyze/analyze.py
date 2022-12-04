@@ -34,12 +34,12 @@ def get_data_eq2(file, warmup=1501):
 
     k_b = 3.29983031e-27 # kcal/K
     T = np.mean(data['Temp'][warmup:]) # K
-    N_A = 6.022e23 # mol
+    N_A = 6.022e23 # 1/mol
 
-    C_v_u = var_u/(N_A*k_b*T*T) # kcal^2*K
+    C_v_u = var_u/(N_A*k_b*T*T) # kcal^2*K*mol
                                 # -----------
                                 # kcal*mol^2*K^2 
-    C_v_e = var_e/(N_A*k_b*T*T) # kcal^2*K
+    C_v_e = var_e/(N_A*k_b*T*T) # kcal^2*K*mol
                                 # -----------
                                 # kcal*mol^2*K^2 
     
@@ -85,8 +85,8 @@ def get_data_eq1(file, warmup=1501):
     tmp[f'var_u'] = np.var(U)
     tmp[f'var_e'] = np.var(E)
     tmp[f'var_t'] = np.var(T)
-    tmp[f'C_v_u'] = np.mean(C_V_U)
-    tmp[f'C_v_e'] = np.mean(C_V_E)
+    tmp[f'C_v_u'] = np.abs(np.mean(C_V_U))
+    tmp[f'C_v_e'] = np.abs(np.mean(C_V_E))
     tmp[f'E']     = np.mean(E)
     tmp[f'U']     = np.mean(U)
     tmp[f'T']     = np.mean(T)
@@ -97,44 +97,63 @@ def get_data_eq1(file, warmup=1501):
 
 if __name__ == "__main__":
 
+    # Case 1: Vacuum present
+    LJ_dir = "data/LJ/vacuum/"
+    ReaxFF_dir = "data/ReaxFF/vacuum/"
 
-    LJ_dir = "data/LJ/"
-    ReaxFF_dir = "data/ReaxFF/"
+    # Case 2: No Vacuum present
+    LJ_dir_no_vac = "data/LJ/no_vacuum/"
+    ReaxFF_dir_no_vac = "data/ReaxFF/no_vacuum/"
+
 
     LJ_files = os.listdir(LJ_dir)
     ReaxFF_files = os.listdir(ReaxFF_dir)
 
-    # Data for LJ simulations
-    df = pd.DataFrame()
-
-    for file in LJ_files:
-        df = pd.concat([df, get_data_eq2(LJ_dir+file)])
-
-    df.to_csv(f"csv/LJdata_eq2.csv")
-
-    # Data for ReaxFF Simulations
-    df = pd.DataFrame()
-
-    for file in ReaxFF_files:
-        df = pd.concat([df, get_data_eq2(ReaxFF_dir+file)])
-
-    df.to_csv(f"csv/ReaxFFdata_eq2.csv")
-
-    #############
-    ## Equation 1
+    LJ_files_no_vac = os.listdir(LJ_dir_no_vac)
+    ReaxFF_files_no_vac = os.listdir(ReaxFF_dir_no_vac)
 
     # Data for LJ simulations
-    df = pd.DataFrame()
+    df2 = pd.DataFrame()
+    df1 = pd.DataFrame()
 
     for file in LJ_files:
-        df = pd.concat([df, get_data_eq1(LJ_dir+file)])
+        df1 = pd.concat([df1, get_data_eq1(LJ_dir+file)])
+        df2 = pd.concat([df2, get_data_eq2(LJ_dir+file)])
 
-    df.to_csv(f"csv/LJdata_eq1.csv")
+    df1.to_csv(f"csv/LJdata_eq1.csv")
+    df2.to_csv(f"csv/LJdata_eq2.csv")
 
     # Data for ReaxFF Simulations
-    df = pd.DataFrame()
+    df2 = pd.DataFrame()
+    df1 = pd.DataFrame()
 
     for file in ReaxFF_files:
-        df = pd.concat([df, get_data_eq1(ReaxFF_dir+file)])
+        df1 = pd.concat([df1, get_data_eq1(ReaxFF_dir+file)])
+        df2 = pd.concat([df2, get_data_eq2(ReaxFF_dir+file)])
 
-    df.to_csv(f"csv/ReaxFFdata_eq1.csv")
+    df1.to_csv(f"csv/ReaxFFdata_eq1.csv")
+    df2.to_csv(f"csv/ReaxFFdata_eq2.csv")
+
+    #########
+
+    # Data for LJ simulations no vacuum
+    df2 = pd.DataFrame()
+    df1 = pd.DataFrame()
+
+    for file in LJ_files_no_vac:
+        df1 = pd.concat([df1, get_data_eq1(LJ_dir_no_vac+file)])
+        df2 = pd.concat([df2, get_data_eq2(LJ_dir_no_vac+file)])
+
+    df1.to_csv(f"csv/LJdata_no_vac_eq1.csv")
+    df2.to_csv(f"csv/LJdata_no_vac_eq2.csv")
+
+    # Data for ReaxFF Simulations no vacuum
+    df2 = pd.DataFrame()
+    df1 = pd.DataFrame()
+
+    for file in ReaxFF_files_no_vac:
+        df1 = pd.concat([df1, get_data_eq1(ReaxFF_dir_no_vac+file)])
+        df2 = pd.concat([df2, get_data_eq2(ReaxFF_dir_no_vac+file)])
+
+    df1.to_csv(f"csv/ReaxFFdata_no_vac_eq1.csv")
+    df2.to_csv(f"csv/ReaxFFdata_no_vac_eq2.csv")
