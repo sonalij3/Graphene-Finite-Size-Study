@@ -1,0 +1,17 @@
+LAMMPS (14 Dec 2021)
+# Initialization
+units real
+boundary p p p
+atom_style charge
+
+#bond_style harmonic
+#angle_style harmonic
+#dihedral_style opls
+#improper_style harmonic
+#---------Neighbor----------------------
+neighbor    0.4 bin
+neigh_modify    every 10 one 10000
+
+#special_bonds lj 0.0 0.0 0.5
+
+log graphene_single_layer_LJ_795C_after_temp_800K_nv_log.txt ### MODIFY FILE NAME ###
