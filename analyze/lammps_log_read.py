@@ -22,6 +22,8 @@ def extract_properties_from_log(log_file_path):
     df = pd.DataFrame(data, columns=df_head).dropna(axis=0)
     return df
 
+
+
 # Usage example
 common_path = 'C:/Users/Vitor/Desktop/test_lammps.txt' # path of the lammps log file
 data = extract_properties_from_log(common_path)
